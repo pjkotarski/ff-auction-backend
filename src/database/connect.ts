@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const dbUri = `mongodb://localhost:27017/bids_db`;
+const dbUri = `mongodb://localhost:27017/ff_auction`;  // we open up a connection to this DB specifically.
 
 mongoose
     .connect(dbUri)
