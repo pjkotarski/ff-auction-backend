@@ -30,6 +30,14 @@ app.get('/add-bid', async(req: any, res: any) => {
     res.json(JSON.stringify(result));
 });
 
+app.get('/get-bids', async(req: any, res:any) => {
+
+    const bids: IBid[] = await BidsRepo.getBids();
+
+    return res.json(JSON.stringify(bids));
+});
+
+
 
 app.get('/add-player', async(req: any, res: any) => {
 
@@ -49,6 +57,15 @@ app.get('/add-player', async(req: any, res: any) => {
 
     res.json(JSON.stringify(result));
 });
+
+
+app.get('/get-players', async(req: any, res:any) => {
+
+    const players: IPlayer[] = await PlayersRepo.getPlayers();
+
+    return res.json(JSON.stringify(players));
+});
+
 
 
 app.listen(port, () => {

@@ -16,4 +16,10 @@ export default class PlayersRepo {
             }
         }
     }
+
+
+    public static async getPlayers() {
+        return await PlayerModel.find({}) as IPlayer[];
+    }
+
 }

@@ -16,4 +16,8 @@ export default class BidsRepo {
             }
         }
     }
+
+    public static async getBids() {
+        return await BidModel.find({}) as IBid[];
+    }
 }
