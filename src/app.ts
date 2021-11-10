@@ -2,7 +2,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import './database/connect';
 import BidsRepo from './database/repo/Bids.repo';
-import BidDao from './database/DAOs/BidDao';
+import IBid from './shared/types/IBid';
 
 dotenv.config();
 
@@ -15,7 +15,7 @@ app.get('/', (req: any, res: any) => {
 
 app.get('/add-bid', async(req: any, res: any) => {
 
-    const bidDao: BidDao = {
+    const bidDao: IBid = {
         player_id: 'player id',
         amount: 90,
         isLeader: false

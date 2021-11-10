@@ -1,14 +1,9 @@
-import mongoose, { model, Schema } from 'mongoose';
-import BidDao from '../DAOs/BidDao';
+import { model, Schema } from 'mongoose';
 
 const DOCUMENT_NAME = 'Bids';
 const COLLECTION_NAME = 'bids_db';
 
 const schema = new Schema({
-    _id: {
-        type: mongoose.Types.ObjectId,
-        required: true
-    },
     player_id: {
       type: Schema.Types.String,
       required: true,

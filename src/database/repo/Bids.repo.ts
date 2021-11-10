@@ -1,25 +1,14 @@
-import mongoose, { Mongoose } from "mongoose";
-import BidDao from "../DAOs/BidDao";
 import { BidModel } from '../model/Bids.model';
+import IBid from '../../shared/types/IBid';
 
 export default class BidsRepo {
 
-    public static async addBid(bidDao: BidDao){
+    public static async addBid(newBid: IBid){
 
-
-
-        if (bidDao._id === undefined) {
-            bidDao._id = new mongoose.Types.ObjectId();
-        }
-
-        const bid = new BidModel(bidDao); // BidModel is not a constructor
-
-
-
+        const bid = new BidModel(newBid);
 
         try {
-            await bid.save();
-            return bid;
+            return await bid.save();
         } catch (error) {
             console.log('THERE WAS AN ERROR ON SAVE', error);
             return {
