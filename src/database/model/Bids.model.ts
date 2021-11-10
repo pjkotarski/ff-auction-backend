@@ -1,7 +1,6 @@
 import { model, Schema } from 'mongoose';
 
-const DOCUMENT_NAME = 'Bids';
-const COLLECTION_NAME = 'bids_db';
+const DOCUMENT_NAME = 'bid';
 
 const schema = new Schema({
     player_id: {
@@ -20,6 +19,6 @@ const schema = new Schema({
     },
 }, { timestamps: true } );
 
-const BidModel = model(DOCUMENT_NAME, schema, COLLECTION_NAME);
+const BidModel = model(DOCUMENT_NAME, schema);
 
 export { BidModel };
