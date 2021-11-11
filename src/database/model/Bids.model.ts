@@ -1,6 +1,5 @@
 import { model, Schema } from 'mongoose';
-
-const DOCUMENT_NAME = 'bid';
+import { BID_DOCUMENT } from '../../shared/configs/env.configs';
 
 const schema = new Schema({
     player_id: {
@@ -19,6 +18,7 @@ const schema = new Schema({
     },
 }, { timestamps: true } );
 
-const BidModel = model(DOCUMENT_NAME, schema);
 
-export { BidModel };
+export const getBidModelWithWeek = (week: string) => {
+  return model(BID_DOCUMENT + week, schema);
+}

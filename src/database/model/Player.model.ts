@@ -1,6 +1,5 @@
 import { model, Schema } from 'mongoose';
-
-const DOCUMENT_NAME = "player";
+import { PLAYER_DOCUMENT } from '../../shared/configs/env.configs';
 
 const schema = new Schema({
 
@@ -19,7 +18,6 @@ const schema = new Schema({
     percentOwned: Number,
 }, { timestamps: true });
 
-const PlayerModel = model(DOCUMENT_NAME, schema);
-
-export { PlayerModel };
-
+export const getPlayerModel = (week: string) => {
+    return model(PLAYER_DOCUMENT + week, schema);
+}

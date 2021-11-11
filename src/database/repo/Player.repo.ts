@@ -1,9 +1,12 @@
+import WeekService from '../../services/WeekService';
 import  IPlayer from '../../shared/types/IPlayer';
-import { PlayerModel } from '../model/Player.model';
+import { getPlayerModel } from '../model/Player.model'
 
 export default class PlayersRepo {
 
     public static addPlayer(player: IPlayer) {
+
+        const PlayerModel = this.getPlayerModel();
 
         const playerRecord = new PlayerModel(player);
 
@@ -18,6 +21,7 @@ export default class PlayersRepo {
     }
 
     public static clearPlayerDb() {
+        const PlayerModel = this.getPlayerModel();
 
         PlayerModel.deleteMany({})
             .then(() => {
@@ -26,11 +30,12 @@ export default class PlayersRepo {
             .catch(() => {
                 console.log('error removing players from db');
             })
-
     }
 
 
     public static async getXPlayers(x: number): Promise<IPlayer[]> {
+
+        const PlayerModel = this.getPlayerModel();
 
         const players: IPlayer[] = await PlayerModel
             .find({})
@@ -41,4 +46,7 @@ export default class PlayersRepo {
         return players;
     }
 
+    private static getPlayerModel() {
+        return getPlayerModel(WeekService.getWeek());
+    }
 }
