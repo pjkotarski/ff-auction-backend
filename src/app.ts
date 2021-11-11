@@ -6,6 +6,9 @@ import IBid from './shared/types/IBid';
 import IPlayer from './shared/types/IPlayer';
 import { PositionEnum, InjuryStatusEnum } from './shared/enums/playerEnums';
 import PlayersRepo from './database/repo/Player.repo';
+import cron from 'node-cron';
+import { onCron } from './helpers/cron/cron.helper';
+import PlayerService from './services/PlayerService';
 
 
 dotenv.config();
@@ -13,9 +16,14 @@ dotenv.config();
 const port = process.env.SERVER_PORT;
 const app = express();
 
-app.get('/', (req: any, res: any) => {
-    res.send('HELLO WORLD');
-});
+// cron event triggered every Tuesday at 12:00 am
+cron.schedule('0 0 * * 2', () => onCron);
+
+
+app.get('/restore-players', (req: any, res: any) => {
+    onCron();
+    res.send('restored players');
+})
 
 app.get('/add-bid', async(req: any, res: any) => {
 
@@ -38,26 +46,15 @@ app.get('/get-bids', async(req: any, res:any) => {
 });
 
 
+app.get('/all-players', async(req: any, res: any) => {
 
-app.get('/add-player', async(req: any, res: any) => {
 
-    const player: IPlayer = {
-        _id: 99999,
-        firstName: 'Aaron',
-        lastName: 'Rodgers',
-        fullName: 'Aaron Rodgers',
-        jerseyNumber: 12,
-        team: 'Green Bay Packers',
-        teamAbbr: 'GB',
-        position: PositionEnum.QB,
-        injuryStatus: InjuryStatusEnum.ACTIVE
-    }
+    console.log('ATTEMPTING TO GET PLAYERS');
+    const freeAgents = await onCron();
 
-    const result = await PlayersRepo.addPlayer(player);
+    res.json(freeAgents);
 
-    res.json(JSON.stringify(result));
 });
-
 
 app.get('/get-players', async(req: any, res:any) => {
 

@@ -16,6 +16,7 @@ const schema = new Schema({
     teamAbbr: String,
     position: String,
     injuryStatus: String,
+    percentOwned: Number,
 }, { timestamps: true });
 
 const PlayerModel = model(DOCUMENT_NAME, schema);

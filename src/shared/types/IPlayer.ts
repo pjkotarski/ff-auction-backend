@@ -11,6 +11,7 @@ export default interface IPlayer {
     teamAbbr: string,
     position: PositionEnum,
     injuryStatus: InjuryStatusEnum,
+    percentOwned: number,
     createdAt?: Date;
     updatedAt?: Date;
 }
