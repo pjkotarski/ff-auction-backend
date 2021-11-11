@@ -30,8 +30,15 @@ export default class PlayersRepo {
     }
 
 
-    public static async getPlayers() {
-        return await PlayerModel.find({}) as IPlayer[];
+    public static async getXPlayers(x: number): Promise<IPlayer[]> {
+
+        const players: IPlayer[] = await PlayerModel
+            .find({})
+            .sort({ percentOwned: -1})
+            .limit(x)
+            .exec();
+
+        return players;
     }
 
 }

@@ -58,7 +58,7 @@ app.get('/all-players', async(req: any, res: any) => {
 
 app.get('/get-players', async(req: any, res:any) => {
 
-    const players: IPlayer[] = await PlayersRepo.getPlayers();
+    const players: IPlayer[] = await PlayersRepo.getXPlayers(20);
 
     return res.json(JSON.stringify(players));
 });
