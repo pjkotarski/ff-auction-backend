@@ -9,7 +9,7 @@ export default class WeekService {
 
     constructor() {}
 
-    private static week = '0';
+    private static week = this.resolveWeek();
 
     static setWeek(week: string): void {
         this.week = week;

@@ -1,16 +1,14 @@
+import BidsRepo from '../database/repo/Bids.repo';
+import IBid from '../shared/types/IBid';
 
+export default class BidService {
 
+    constructor() {}
 
-class BidService {
-
-    constructor() {
-        // here, we can import stuff from our DB layer.
+    static getBids(): Promise<IBid[]> {
+        return BidsRepo.getBids();
     }
 
-
-    async addBid() {
-        // here you'll want to do something with the bid on a player.
-    }
 
 }
 
