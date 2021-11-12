@@ -43,5 +43,9 @@ export default class PlayerService {
 
     }
 
+    static getPlayers() {
+        return PlayersRepo.getXPlayers(20);
+    }
+
 }
 
