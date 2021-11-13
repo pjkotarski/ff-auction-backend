@@ -23,6 +23,10 @@ export default class BidService {
         return BidsRepo.addBid(bid);
     }
 
+    public static getBidsAfterTime(time: string): Promise<IBid[]> {
+        return BidsRepo.getBidsAfterTimestamp(time);
+    }
+
     private static async isBidValid(bid: IBid): Promise<boolean> {
 
         const leadingBid: IBid[] = await BidsRepo.getLeadingBidForPlayer(bid.player_id);
@@ -33,7 +37,6 @@ export default class BidService {
 
         return false;
     }
-
 
 }
 

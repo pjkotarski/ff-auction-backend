@@ -17,9 +17,9 @@ export default class BidsRepo {
         }
     }
 
-    public static async getBids() {
+    public static async getBids(): Promise<IBid[]> {
         const BidModel = this.getBidModel();
-        return await BidModel.find({}) as IBid[];
+        return await BidModel.find({}).sort({ createdAt: -1 });
     }
 
     public static async getLeadingBidForPlayer(playerId: number) {
@@ -31,6 +31,18 @@ export default class BidsRepo {
     public static async getBidsForPlayer(playerId: number): Promise<IBid[]> {
         const BidModel = this.getBidModel();
         const bids = await BidModel.find({ player_id: playerId }).sort({ createdAt: -1 });
+
+        return bids;
+    }
+
+    public static async getBidsAfterTimestamp(time: string): Promise<IBid[]> {
+
+        const BidModel = this.getBidModel();
+
+        const bids = await BidModel.find({ createdAt: {
+            $gt: new Date(time),
+            $lt: new Date() 
+        }}).sort({ createdAt: -1});
 
         return bids;
     }
