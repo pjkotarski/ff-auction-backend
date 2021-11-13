@@ -1,5 +1,7 @@
+import BidsRepo from '../database/repo/Bids.repo';
 import PlayersRepo from '../database/repo/Player.repo';
 import { InjuryStatusEnum, PositionEnum } from '../shared/enums/playerEnums';
+import IBid from '../shared/types/IBid';
 import IEspnPlayer from '../shared/types/IEspnPlayer';
 import IEspnPlayerHolder from '../shared/types/IEspnPlayerHolder';
 import IPlayer from '../shared/types/IPlayer';
@@ -18,6 +20,18 @@ export default class PlayerService {
 
     static clearPlayerDb() {
         PlayersRepo.clearPlayerDb();
+    }
+
+    static async getPlayerWithBids(playerId: number): Promise<IPlayer> {
+
+        const promiseResults = await Promise.all([PlayersRepo.getPlayer(playerId), BidsRepo.getBidsForPlayer(playerId)]);
+
+        const player: IPlayer = promiseResults[0];
+        const bids: IBid[] = promiseResults[1];
+
+        player.bids = bids;
+
+        return player;
     }
 
     static convertPlayer(playerHolder: IEspnPlayerHolder) {

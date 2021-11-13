@@ -1,5 +1,6 @@
 import { model, Schema } from 'mongoose';
 import { BID_DOCUMENT } from '../../shared/configs/env.configs';
+import IBid from '../../shared/types/IBid';
 
 const schema = new Schema({
     player_id: {
@@ -12,13 +13,9 @@ const schema = new Schema({
       type: Schema.Types.Number,
       required: true
     },
-    isLeader: {
-      type: Schema.Types.Boolean,
-      required: true
-    },
 }, { timestamps: true } );
 
 
 export const getBidModelWithWeek = (week: string) => {
-  return model(BID_DOCUMENT + week, schema);
+  return model<IBid>(BID_DOCUMENT + week, schema);
 }

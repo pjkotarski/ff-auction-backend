@@ -1,4 +1,5 @@
 import { PositionEnum, InjuryStatusEnum } from '../enums/playerEnums';
+import IBid from './IBid';
 
 
 export default interface IPlayer {
@@ -14,4 +15,5 @@ export default interface IPlayer {
     percentOwned: number,
     createdAt?: Date;
     updatedAt?: Date;
+    bids?: IBid[];
 }

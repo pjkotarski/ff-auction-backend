@@ -7,6 +7,7 @@ import { PORT } from './shared/configs/env.configs';
 
 const port = PORT;
 const app = express();
+app.use(express.json());
 
 app.use('/api', routes)
 

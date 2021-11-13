@@ -20,6 +20,11 @@ export default class PlayersRepo {
 
     }
 
+    public static async getPlayer(playerId: number): Promise<IPlayer> {
+        const playerModel = this.getPlayerModel();
+        return (await playerModel.findOne({ _id: playerId })).toObject();
+    }
+
     public static clearPlayerDb() {
         const PlayerModel = this.getPlayerModel();
 

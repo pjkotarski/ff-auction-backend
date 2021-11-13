@@ -1,5 +1,6 @@
 import { model, Schema } from 'mongoose';
 import { PLAYER_DOCUMENT } from '../../shared/configs/env.configs';
+import IPlayer from '../../shared/types/IPlayer';
 
 const schema = new Schema({
 
@@ -19,5 +20,5 @@ const schema = new Schema({
 }, { timestamps: true });
 
 export const getPlayerModel = (week: string) => {
-    return model(PLAYER_DOCUMENT + week, schema);
+    return model<IPlayer>(PLAYER_DOCUMENT + week, schema);
 }
