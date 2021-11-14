@@ -1,5 +1,6 @@
 import BidsRepo from '../database/repo/Bids.repo';
 import PlayersRepo from '../database/repo/Player.repo';
+import { PLAYER_PAGE_SIZE } from '../shared/configs/env.configs';
 import { InjuryStatusEnum, PositionEnum } from '../shared/enums/playerEnums';
 import IBid from '../shared/types/IBid';
 import IEspnPlayer from '../shared/types/IEspnPlayer';
@@ -59,6 +60,13 @@ export default class PlayerService {
 
     static getPlayers() {
         return PlayersRepo.getXPlayers(20);
+    }
+
+    static getPlayersByPage(page: number): Promise<IPlayer[]> {
+
+        const firstPlayerIndex = PLAYER_PAGE_SIZE * (page - 1); 
+        
+        return PlayersRepo.getPlayersByIndex(firstPlayerIndex);
     }
 
 }

@@ -10,4 +10,13 @@ router.get('/get-players', async(req: any, res: any) => {
     res.json(JSON.stringify(players));
 });
 
+router.get('/get-players/:page', async(req: any, res: any) => {
+
+    const page: number = req.params.page;
+
+    const players: IPlayer[] = await PlayerService.getPlayersByPage(page);
+
+    res.json(players);
+});
+
 export default router;

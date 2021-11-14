@@ -1,4 +1,5 @@
 import WeekService from '../../services/WeekService';
+import { PLAYER_PAGE_SIZE } from '../../shared/configs/env.configs';
 import  IPlayer from '../../shared/types/IPlayer';
 import { getPlayerModel } from '../model/Player.model'
 
@@ -50,6 +51,18 @@ export default class PlayersRepo {
 
         return players;
     }
+
+    public static async getPlayersByIndex(firstPlayerIndex: number): Promise<IPlayer[]> {
+        const PlayerModel = this.getPlayerModel();
+
+        return await PlayerModel
+            .find({})
+            .sort({ percentOwned: -1 })
+            .skip(firstPlayerIndex)
+            .limit(PLAYER_PAGE_SIZE)
+            .exec();
+    }
+
 
     private static getPlayerModel() {
         return getPlayerModel(WeekService.getWeek());
