@@ -48,6 +48,7 @@ export default class BidsRepo {
     }
 
     private static getBidModel() {
-        return getBidModelWithWeek(WeekService.getWeek());
+        return getBidModelWithWeek('10');
+        //return getBidModelWithWeek(WeekService.getWeek());
     }
 }

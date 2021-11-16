@@ -64,7 +64,7 @@ export default class PlayerService {
 
     static getPlayersByPage(page: number): Promise<IPlayer[]> {
 
-        const firstPlayerIndex = PLAYER_PAGE_SIZE * (page - 1); 
+        const firstPlayerIndex = PLAYER_PAGE_SIZE * page; 
         
         return PlayersRepo.getPlayersByIndex(firstPlayerIndex);
     }

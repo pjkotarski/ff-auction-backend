@@ -7,7 +7,7 @@ const router = express.Router();
 
 router.get('/get-players', async(req: any, res: any) => {
     const players: IPlayer[] = await PlayerService.getPlayers();
-    res.json(JSON.stringify(players));
+    res.json(players);
 });
 
 router.get('/get-players/:page', async(req: any, res: any) => {
