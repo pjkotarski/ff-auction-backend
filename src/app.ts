@@ -13,7 +13,6 @@ app.use('/api', routes)
 
 cron.schedule('0 0 * * 2', () => WeekService.onCron);
 
-
 app.get('/test-dat', (req: any, res: any) => {
 
     const date = new Date('2021-11-13T01:43:21.358Z');

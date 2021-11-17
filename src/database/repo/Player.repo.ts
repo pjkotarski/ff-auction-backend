@@ -23,7 +23,7 @@ export default class PlayersRepo {
 
     public static async getPlayer(playerId: number): Promise<IPlayer> {
         const playerModel = this.getPlayerModel();
-        return (await playerModel.findOne({ _id: playerId })).toObject();
+        return await playerModel.findOne({ _id: playerId }).lean();
     }
 
     public static clearPlayerDb() {
@@ -43,13 +43,11 @@ export default class PlayersRepo {
 
         const PlayerModel = this.getPlayerModel();
 
-        const players: IPlayer[] = await PlayerModel
+        return await PlayerModel
             .find({})
             .sort({ percentOwned: -1})
             .limit(x)
-            .exec();
-
-        return players;
+            .lean();
     }
 
     public static async getPlayersByIndex(firstPlayerIndex: number): Promise<IPlayer[]> {
@@ -60,9 +58,17 @@ export default class PlayersRepo {
             .sort({ percentOwned: -1 })
             .skip(firstPlayerIndex)
             .limit(PLAYER_PAGE_SIZE)
-            .exec();
+            .lean();
     }
 
+    public static async getPlayerListFromIds(playerIds: number[]): Promise<IPlayer[]> {
+
+        const playerModel = this.getPlayerModel();
+        
+        return await playerModel
+            .find({ '_id' : { '$in': playerIds} })
+            .lean();
+    }
 
     private static getPlayerModel() {
         return getPlayerModel(WeekService.getWeek());

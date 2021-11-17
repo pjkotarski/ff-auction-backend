@@ -3,12 +3,13 @@ import BidService from '../../services/BidService';
 import PlayerService from '../../services/PlayerService';
 import IBid from '../../shared/types/IBid'
 import { IBidRequest } from '../../shared/types/IBidRequest';
+import IPlayer from '../../shared/types/IPlayer';
 
 const router = express.Router();
 
 router.get('/get-bids', async(req: any, res: any) => {
-    const bids: IBid[] = await BidService.getBids();
-    return res.json(JSON.stringify(bids));
+    const players: IPlayer[] = await BidService.getBids();
+    return res.json(players);
 });
 
 router.post('/post-bid', async(req: any, res: any) => {
@@ -22,14 +23,14 @@ router.post('/post-bid', async(req: any, res: any) => {
 router.post('/get-bids', async(req: any, res: any) => {
 
    const bidRequest: IBidRequest = req.body;
-   let bids: IBid[];
+   let players: IPlayer[];
    if (bidRequest.mostRecentBid && bidRequest.mostRecentBid.length > 0) {
-       bids = await BidService.getBidsAfterTime(bidRequest.mostRecentBid);
+       players = await BidService.getBidsAfterTime(bidRequest.mostRecentBid);
    } else {
-       bids = await BidService.getBids();
+       players = await BidService.getBids();
    }
 
-   res.json(bids);
+   res.json(players);
 });
 
 export default router;

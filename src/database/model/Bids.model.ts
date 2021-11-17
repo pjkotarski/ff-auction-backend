@@ -4,7 +4,7 @@ import IBid from '../../shared/types/IBid';
 
 const schema = new Schema({
     player_id: {
-      type: Schema.Types.String,
+      type: Schema.Types.Number,
       required: true,
       trim: true,
       maxlength: 100,

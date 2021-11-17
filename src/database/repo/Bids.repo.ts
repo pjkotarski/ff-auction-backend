@@ -19,18 +19,18 @@ export default class BidsRepo {
 
     public static async getBids(): Promise<IBid[]> {
         const BidModel = this.getBidModel();
-        return await BidModel.find({}).sort({ createdAt: -1 });
+        return await BidModel.find({}).sort({ createdAt: -1 }).lean();
     }
 
     public static async getLeadingBidForPlayer(playerId: number) {
         const BidModel = this.getBidModel();
 
-        return await BidModel.find({ player_id: playerId }).sort({ amount: -1 }).limit(1);
+        return await BidModel.find({ player_id: playerId }).sort({ amount: -1 }).limit(1).lean();
     }
 
     public static async getBidsForPlayer(playerId: number): Promise<IBid[]> {
         const BidModel = this.getBidModel();
-        const bids = await BidModel.find({ player_id: playerId }).sort({ createdAt: -1 });
+        const bids = await BidModel.find({ player_id: playerId }).sort({ createdAt: -1 }).lean();
 
         return bids;
     }
@@ -39,16 +39,14 @@ export default class BidsRepo {
 
         const BidModel = this.getBidModel();
 
-        const bids = await BidModel.find({ createdAt: {
+        return await BidModel.find({ createdAt: {
             $gt: new Date(time),
             $lt: new Date() 
-        }}).sort({ createdAt: -1});
-
-        return bids;
+        }}).sort({ createdAt: -1}).lean();
     }
 
     private static getBidModel() {
-        return getBidModelWithWeek('10');
-        //return getBidModelWithWeek(WeekService.getWeek());
+        //return getBidModelWithWeek('10');
+        return getBidModelWithWeek(WeekService.getWeek());
     }
 }
