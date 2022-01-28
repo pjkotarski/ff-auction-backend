@@ -1,7 +1,10 @@
 import moment from 'moment';
+import BidsRepo from '../database/repo/Bids.repo';
 import { SEASON_START } from '../shared/configs/env.configs';
 import { getEspnApiClient } from '../shared/configs/espn.config';
 import IEspnPlayerHolder from '../shared/types/IEspnPlayerHolder';
+import { ILeague } from '../shared/types/ILeague';
+import { getLeagues } from './LeagueService';
 import PlayerService from './PlayerService';
 
 
@@ -29,16 +32,20 @@ export default class WeekService {
 
         const currentWeek = this.resolveWeek();
         this.setWeek(currentWeek);
-
-        const client = getEspnApiClient();
-
-        // I'm not sure if we want to do all that stuff below anymore.
-        await PlayerService.clearPlayerDb();
-
-        const freeAgents: IEspnPlayerHolder[] = await client.getFreeAgents({ seasonId: '2021', scoringPeriodId: currentWeek});
-        PlayerService.savePlayersFromEspn(freeAgents);
+        BidsRepo.clearBids();
+        
+        const leagues = await getLeagues();
+    
+        leagues.forEach((league: ILeague) => {
+            WeekService.updatePlayerDbs(league, currentWeek);
+        });
     }
 
+    static async updatePlayerDbs(league: ILeague, week: string) {
 
-
+        PlayerService.clearPlayerDb(league._id);
+        const espnClient = getEspnApiClient(league.espnSWID, league.espnS2);
+        const freeAgents: IEspnPlayerHolder[] = await espnClient.getFreeAgents({ seasonId: '2021', scoringPeriodId: week});
+        PlayerService.savePlayersFromEspn(freeAgents, league._id);
+    }
 }

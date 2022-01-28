@@ -7,14 +7,14 @@ export default class BidService {
 
     constructor() {}
 
-    static async getBids(): Promise<IPlayer[]> {
-        const bids = await BidsRepo.getBids();
-        return this.mapBidsToPlayers(bids);
+    static async getBids(league_id: number): Promise<IPlayer[]> {
+        const bids = await BidsRepo.getBids(league_id);
+        return this.mapBidsToPlayers(bids, league_id);
     }
 
-    static async postBid(bid: IBid): Promise<IBid> {
+    static async postBid(bid: IBid, league_id: number): Promise<IBid> {
 
-        const bidValid = await this.isBidValid(bid);
+        const bidValid = await this.isBidValid(bid, league_id);
         if (bidValid) {
             return await this.addBid(bid);
         } else {
@@ -26,14 +26,14 @@ export default class BidService {
         return BidsRepo.addBid(bid);
     }
 
-    public static async getBidsAfterTime(time: string): Promise<IPlayer[]> {
-        const bids = await BidsRepo.getBidsAfterTimestamp(time);
-        return this.mapBidsToPlayers(bids);
+    public static async getBidsAfterTime(time: string, league_id: number): Promise<IPlayer[]> {
+        const bids = await BidsRepo.getBidsAfterTimestamp(time, league_id);
+        return this.mapBidsToPlayers(bids, league_id);
     }
 
-    private static async isBidValid(bid: IBid): Promise<boolean> {
+    private static async isBidValid(bid: IBid, league_id: number): Promise<boolean> {
 
-        const leadingBid: IBid[] = await BidsRepo.getLeadingBidForPlayer(bid.player_id);
+        const leadingBid: IBid[] = await BidsRepo.getLeadingBidForPlayer(bid.player_id, league_id);
 
         if (leadingBid.length === 0 || bid.amount > leadingBid[0].amount) {
             return true;
@@ -42,7 +42,7 @@ export default class BidService {
         return false;
     }
 
-    private static async mapBidsToPlayers(bids: IBid[]): Promise<IPlayer[]> {
+    private static async mapBidsToPlayers(bids: IBid[], league_id: number): Promise<IPlayer[]> {
 
         const playersSet = new Set<number>();
         bids.forEach(bid => {
@@ -50,7 +50,7 @@ export default class BidService {
         });
 
         const playerIds: number[] = Array.from(playersSet);
-        const players = await PlayersRepo.getPlayerListFromIds(playerIds);
+        const players = await PlayersRepo.getPlayerListFromIds(playerIds, league_id);
         
 
         for (const bid of bids) {

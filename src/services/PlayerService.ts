@@ -1,10 +1,12 @@
 import BidsRepo from '../database/repo/Bids.repo';
+import LeagueRepo from '../database/repo/League.repo';
 import PlayersRepo from '../database/repo/Player.repo';
 import { PLAYER_PAGE_SIZE } from '../shared/configs/env.configs';
 import { InjuryStatusEnum, PositionEnum } from '../shared/enums/playerEnums';
 import IBid from '../shared/types/IBid';
 import IEspnPlayer from '../shared/types/IEspnPlayer';
 import IEspnPlayerHolder from '../shared/types/IEspnPlayerHolder';
+import { ILeague } from '../shared/types/ILeague';
 import IPlayer from '../shared/types/IPlayer';
 
 
@@ -12,20 +14,20 @@ export default class PlayerService {
 
     constructor() {}
 
-    static savePlayersFromEspn(espnPlayers: IEspnPlayerHolder[]) {
+    static savePlayersFromEspn(espnPlayers: IEspnPlayerHolder[], leagueId: number) {
         espnPlayers.map(espnPlayer => {
             const player = PlayerService.convertPlayer(espnPlayer);
-            PlayersRepo.addPlayer(player);
+            PlayersRepo.addPlayer(player, leagueId);
         });
     }
 
-    static clearPlayerDb() {
-        PlayersRepo.clearPlayerDb();
+    static clearPlayerDb(leagueId: number) {
+        PlayersRepo.clearPlayerDb(leagueId);
     }
 
-    static async getPlayerWithBids(playerId: number): Promise<IPlayer> {
+    static async getPlayerWithBids(playerId: number, league_id: number): Promise<IPlayer> {
 
-        const promiseResults = await Promise.all([PlayersRepo.getPlayer(playerId), BidsRepo.getBidsForPlayer(playerId)]);
+        const promiseResults = await Promise.all([PlayersRepo.getPlayer(playerId, league_id), BidsRepo.getBidsForPlayer(playerId, league_id)]);
 
         const player: IPlayer = promiseResults[0];
         const bids: IBid[] = promiseResults[1];
@@ -58,15 +60,15 @@ export default class PlayerService {
 
     }
 
-    static getPlayers() {
-        return PlayersRepo.getXPlayers(20);
+    static getPlayers(league_id: number) {
+        return PlayersRepo.getXPlayers(20, league_id);
     }
 
-    static getPlayersByPage(page: number): Promise<IPlayer[]> {
+    static getPlayersByPage(page: number, league_id: number): Promise<IPlayer[]> {
 
         const firstPlayerIndex = PLAYER_PAGE_SIZE * page; 
         
-        return PlayersRepo.getPlayersByIndex(firstPlayerIndex);
+        return PlayersRepo.getPlayersByIndex(firstPlayerIndex, league_id);
     }
 
 }

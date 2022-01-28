@@ -1,12 +1,10 @@
-import { getBidModelWithWeek } from '../model/Bids.model';
+import { BidModel } from '../model/Bids.model';
 import IBid from '../../shared/types/IBid';
-import WeekService from '../../services/WeekService';
 
 export default class BidsRepo {
 
     public static async addBid(newBid: IBid): Promise<IBid> {
 
-        const BidModel = this.getBidModel();
         const bid = new BidModel(newBid);
 
         try {
@@ -17,27 +15,21 @@ export default class BidsRepo {
         }
     }
 
-    public static async getBids(): Promise<IBid[]> {
-        const BidModel = this.getBidModel();
-        return await BidModel.find({}).sort({ createdAt: -1 }).lean();
+    public static async getBids(league_id: number): Promise<IBid[]> {
+        return await BidModel.find({ league_id: league_id }).sort({ createdAt: -1 }).lean();
     }
 
-    public static async getLeadingBidForPlayer(playerId: number) {
-        const BidModel = this.getBidModel();
-
+    public static async getLeadingBidForPlayer(playerId: number, league_id: number) {
         return await BidModel.find({ player_id: playerId }).sort({ amount: -1 }).limit(1).lean();
-    }
+    }   
 
-    public static async getBidsForPlayer(playerId: number): Promise<IBid[]> {
-        const BidModel = this.getBidModel();
+    public static async getBidsForPlayer(playerId: number, league_id: number): Promise<IBid[]> {
+        
         const bids = await BidModel.find({ player_id: playerId }).sort({ createdAt: -1 }).lean();
-
         return bids;
     }
 
-    public static async getBidsAfterTimestamp(time: string): Promise<IBid[]> {
-
-        const BidModel = this.getBidModel();
+    public static async getBidsAfterTimestamp(time: string, league_id: number): Promise<IBid[]> {
 
         return await BidModel.find({ createdAt: {
             $gt: new Date(time),
@@ -45,8 +37,14 @@ export default class BidsRepo {
         }}).sort({ createdAt: -1}).lean();
     }
 
-    private static getBidModel() {
-        //return getBidModelWithWeek('10');
-        return getBidModelWithWeek(WeekService.getWeek());
+    public static clearBids() {
+        BidModel.deleteMany({})
+            .then(() => {
+                console.log('cleaned bids db');
+            })
+            .catch(() => {
+                console.log('there was an error cleaning bids db')
+            })
     }
+
 }

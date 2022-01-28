@@ -3,7 +3,6 @@ import { PLAYER_DOCUMENT } from '../../shared/configs/env.configs';
 import IPlayer from '../../shared/types/IPlayer';
 
 const schema = new Schema({
-
     _id: {
         type: Number,
         required: true
@@ -19,6 +18,8 @@ const schema = new Schema({
     percentOwned: Number,
 }, { timestamps: true });
 
-export const getPlayerModel = (week: string) => {
-    return model<IPlayer>(PLAYER_DOCUMENT + week, schema);
+schema.index({'$**': 'text'});
+
+export const getPlayerModel = (leagueId: number) => {
+    return model<IPlayer>(`${PLAYER_DOCUMENT}_${leagueId}`, schema);
 }

@@ -9,13 +9,14 @@ const schema = new Schema({
       trim: true,
       maxlength: 100,
     },
+    league_id: {
+      type: Number,
+      required: true
+    },
     amount: {
       type: Schema.Types.Number,
       required: true
     },
 }, { timestamps: true } );
 
-
-export const getBidModelWithWeek = (week: string) => {
-  return model<IBid>(BID_DOCUMENT + week, schema);
-}
+export const BidModel = model<IBid>(BID_DOCUMENT, schema);
