@@ -20,6 +20,9 @@ const schema = new Schema({
   league_id: {
     type: Schema.Types.String,
     required: true
+  },
+  bidderName: {
+    type: Schema.Types.String
   }
 }, { timestamps: true });
 

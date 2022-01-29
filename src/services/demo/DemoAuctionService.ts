@@ -88,7 +88,7 @@ export default class DemoAuctionService {
       DemoBidsRepo.getBidsForPlayer(newBid.player_id, newBid.league_id)
     ]);
 
-    player.bids = playerBids;
+    player.bids = playerBids.reverse();
     return player;
   }
 

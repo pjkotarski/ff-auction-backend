@@ -121,8 +121,9 @@ router.post('/players/:page', asyncHandler(async(req: any, res: any, next: NextF
   const playersPage: IPlayer[] = await DemoAuctionService.getPlayersByPage(page, user_id, query);
 
   if (!playersPage) throw new InternalServerError('something went wrong');
-
-  res.status(200).json(playersPage);
+  setTimeout(() => {
+    res.status(200).json(playersPage);
+  }, 1000)
 }));
 
 
@@ -131,7 +132,7 @@ router.post('/bidded-players', asyncHandler(async(req: any, res: any, next: Next
   const user_id = getUserCookies(req);
 
   let query = req.body.query;
-  
+
   if (!query) query = '';
 
   const biddedPlayers = await DemoAuctionService.getPlayerBids(user_id, query);
@@ -139,10 +140,9 @@ router.post('/bidded-players', asyncHandler(async(req: any, res: any, next: Next
   if (!biddedPlayers) {
     throw new InternalServerError('something went wrong');
   }
-
-  res.status(200).json(
-    biddedPlayers
-  );
+  setTimeout(() => {
+    res.status(200).json(biddedPlayers);
+  });
 }));
 
 router.get('/unbidded-players', asyncHandler(async(req: any, res: any, next: NextFunction) => {
