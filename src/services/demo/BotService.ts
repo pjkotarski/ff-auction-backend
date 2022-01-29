@@ -82,7 +82,6 @@ export default class BotService {
   }
 
   static async bidOnNew(league_id: string) {
-    console.log('bidding on new player');
     const unbiddedPlayers = await DemoAuctionService.getUnbiddedPlayers(league_id);
     const randomPlayer = unbiddedPlayers[Math.floor(Math.random() * Math.min(30, unbiddedPlayers.length))];
 

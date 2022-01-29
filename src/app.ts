@@ -32,8 +32,6 @@ app.get('/test-client', async(req: any, res: any) => {
     const client = getEspnApiClient();
     const freeAgents: IEspnPlayerHolder[] = await client.getFreeAgents({ seasonId: '2021', scoringPeriodId: 0 });
 
-    console.log('free agents', freeAgents);
-
     res.json(freeAgents);
 });
 

@@ -70,8 +70,6 @@ export default class DemoAuctionService {
       DemoAuctionService.getPlayerBids(user_id)
     ]);
 
-    console.log('unfiltered players', unfilteredPlayers);
-
     return DemoAuctionService.filterOutBiddedPlayers(unfilteredPlayers, biddedPlayers);
   }
 

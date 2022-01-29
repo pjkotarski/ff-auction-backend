@@ -13,12 +13,8 @@ export const signInUser = async(token: string, authStrategy: string) => {
     const authProvider = resolveAuthStrategy(authStrategy);
     const userDetails = await authProvider.getUserInfo(token);
 
-    console.log('USER DETAILS', userDetails);
-
     let user = await UserRepo.findUserByEmail(userDetails.email);
 
-    //if the user doens't exist, you're creating them anyways. Is that the best way to do things? 
-    
     if (!user) {
         user = await UserRepo.saveUser(authProvider.createUser(userDetails));
     }

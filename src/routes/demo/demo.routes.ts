@@ -31,8 +31,6 @@ router.post('/create-user', asyncHandler(async(req: any, res: any, next: NextFun
     throw new InternalServerError('could not create a user');
   }
 
-  console.log(user._id.toString());
-
   user._id = user._id.toString();
 
   res.cookie('user_id', user._id);
@@ -121,9 +119,8 @@ router.post('/players/:page', asyncHandler(async(req: any, res: any, next: NextF
   const playersPage: IPlayer[] = await DemoAuctionService.getPlayersByPage(page, user_id, query);
 
   if (!playersPage) throw new InternalServerError('something went wrong');
-  setTimeout(() => {
-    res.status(200).json(playersPage);
-  }, 1000)
+  
+  res.status(200).json(playersPage);
 }));
 
 
@@ -140,9 +137,8 @@ router.post('/bidded-players', asyncHandler(async(req: any, res: any, next: Next
   if (!biddedPlayers) {
     throw new InternalServerError('something went wrong');
   }
-  setTimeout(() => {
+
     res.status(200).json(biddedPlayers);
-  });
 }));
 
 router.get('/unbidded-players', asyncHandler(async(req: any, res: any, next: NextFunction) => {
@@ -170,11 +166,7 @@ router.get('/clear-bids', asyncHandler(async(req: any, res: any, next: NextFunct
 
 router.post('/search', asyncHandler(async(req: any, res: any, next: NextFunction) => {
 
-  console.log('starting search')
-
   const user_id = getUserCookies(req);
-
-  console.log('user id', user_id);
 
   const search = req.body.search;
 

@@ -11,12 +11,8 @@ router.get('/resolve-token', passport.authenticate('jwt', { session: false }), (
 
 router.post('/google', async(req: any, res:any) => {
 
-    console.log('HIT GOOGLE AUTH ENDPOINT');
-
     const { token } = req.body;
     const { createdUser, jwt } = await signInUser(token, authStrategyEnum.GOOGLE);
-
-    console.log('sending back access token and user', jwt.token, createdUser);
 
     return res
         .cookie('access_token', jwt.token, {
