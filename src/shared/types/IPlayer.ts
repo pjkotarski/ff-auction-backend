@@ -10,8 +10,8 @@ export default interface IPlayer {
     jerseyNumber: number;
     team: string;
     teamAbbr: string,
-    position: PositionEnum,
-    injuryStatus: InjuryStatusEnum,
+    position: string,
+    injuryStatus: string,
     percentOwned: number,
     createdAt?: Date;
     updatedAt?: Date;

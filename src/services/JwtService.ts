@@ -9,7 +9,7 @@ export const signJwt = (payload: IJwtPayload): string => {
 
 export const verifyJwt = (signedToken: string) => {
 
-    try {        
+    try {
         const payload = jwt.verify(signedToken, PUB_KEY, { algorithms: ['RS256'] });
         if (!payload.sub) throw Error;
         return payload.sub;

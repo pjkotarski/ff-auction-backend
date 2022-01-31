@@ -1,9 +1,8 @@
 import mongoose from 'mongoose';
-
-const dbUri = `mongodb://localhost:27017/ff_auction`;  // we open up a connection to this DB specifically.
+import { DB_URL } from '../shared/configs/env.configs';
 
 mongoose
-    .connect(dbUri)
+    .connect(DB_URL)
     .then(() => {
         console.log('set up connection to db');
     })

@@ -4,7 +4,7 @@ import { getPlayerModel } from '../model/Player.model'
 
 export default class PlayersRepo {
 
-    public static async getPlayers(leagueId: number): Promise<IPlayer[]> { 
+    public static async getPlayers(leagueId: number): Promise<IPlayer[]> {
         const PlayerModel = this.getPlayerModel(leagueId);
         return await PlayerModel.find({}).sort({ percentOwned: -1 }).lean().exec();
     }
@@ -19,8 +19,9 @@ export default class PlayersRepo {
             .then(() => {
                 console.log('SAVED ANOTHER PLAYER');
             })
-            .catch(() => {
-                console.log('THERE WAS AN ERROR SAVING THE PLAYER');
+            .catch((e) => {
+                console.log(e);
+                throw new Error();
             });
 
     }

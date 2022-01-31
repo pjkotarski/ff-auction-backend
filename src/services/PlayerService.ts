@@ -3,6 +3,7 @@ import LeagueRepo from '../database/repo/League.repo';
 import PlayersRepo from '../database/repo/Player.repo';
 import { PLAYER_PAGE_SIZE } from '../shared/configs/env.configs';
 import { InjuryStatusEnum, PositionEnum } from '../shared/enums/playerEnums';
+import { InternalServerError } from '../shared/types/errors/InternalServer.error';
 import IBid from '../shared/types/IBid';
 import IEspnPlayer from '../shared/types/IEspnPlayer';
 import IEspnPlayerHolder from '../shared/types/IEspnPlayerHolder';
@@ -42,10 +43,14 @@ export default class PlayerService {
         const espnPlayer: IEspnPlayer = playerHolder.player;
 
         if (!espnPlayer) {
-            console.log('LOG AND THROW SOME TYPE OF ERROR HERE');
+            throw new InternalServerError('something went wrong converting players');
         }
 
-        return {
+        if (espnPlayer.eligiblePositions[0] === 'K') {
+            espnPlayer.defaultPosition = 'K';
+        }
+
+        const newPlayer = {
             _id: espnPlayer.id,
             firstName: espnPlayer.firstName,
             lastName: espnPlayer.lastName,
@@ -54,9 +59,15 @@ export default class PlayerService {
             team: espnPlayer.proTeam,
             teamAbbr: espnPlayer.proTeamAbbreviation,
             percentOwned: espnPlayer.percentOwned,
-            position: PositionEnum[ espnPlayer.defaultPosition as keyof typeof PositionEnum],
-            injuryStatus: InjuryStatusEnum[espnPlayer.injuryStatus as keyof typeof InjuryStatusEnum]
+            position: espnPlayer.defaultPosition,
+            injuryStatus: espnPlayer.injuryStatus
         } as IPlayer;
+
+        if (newPlayer.position === 'TQB') {
+            newPlayer.position = 'QB';
+        }
+
+        return newPlayer;
 
     }
 
@@ -66,8 +77,8 @@ export default class PlayerService {
 
     static getPlayersByPage(page: number, league_id: number): Promise<IPlayer[]> {
 
-        const firstPlayerIndex = PLAYER_PAGE_SIZE * page; 
-        
+        const firstPlayerIndex = PLAYER_PAGE_SIZE * page;
+
         return PlayersRepo.getPlayersByIndex(firstPlayerIndex, league_id);
     }
 

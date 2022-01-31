@@ -6,7 +6,7 @@ import { DemoBidModel } from '../../model/demo/DemoBids.model';
 export default class DemoBidsRepo {
 
   public static async addBid(newBid: IDemoBid): Promise<IDemoBid> {
-    
+
     const bid = new DemoBidModel(newBid);
 
     try {

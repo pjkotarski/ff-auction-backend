@@ -55,17 +55,17 @@ export const assignUserToLeague = async(leagueId: number, userId: string) => {
 }
 
 export const addUserAsComissioner = async(leagueId: number, userId: string) => {
-    try { 
+    try {
         return await LeagueRepo.addUserAsComissioner(leagueId, userId);
     } catch(_) {
         throw new InternalServerError('could not add user as comissioner for league');
     }
 }
 
-//what makes the most sense for me?? --> to keep the front end as simple as posisble. 
+// what makes the most sense for me?? --> to keep the front end as simple as posisble.
 
-// therefore, we're just going to have the object and the user object completely separate with fundamental building 
-// blocks on the service level. 
+// therefore, we're just going to have the object and the user object completely separate with fundamental building
+// blocks on the service level.
 
 
 

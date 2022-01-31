@@ -13,6 +13,9 @@ import { CustomError } from './shared/types/errors/Custom.error';
 import { getEspnApiClient } from './shared/configs/espn.config';
 import IEspnPlayerHolder from './shared/types/IEspnPlayerHolder';
 import { BadRequestError } from './shared/types/errors/BadRequest.error';
+import axios from 'axios';
+import PlayersRepo from './database/repo/Player.repo';
+import PlayerService from './services/PlayerService';
 
 const port = PORT;
 const app = express();
@@ -35,6 +38,22 @@ app.get('/test-client', async(req: any, res: any) => {
     res.json(freeAgents);
 });
 
+app.get('/save-players', async(req: any, res: any) => {
+
+    try {
+        const players: IEspnPlayerHolder[] = (await axios.get('http://localhost:3001/raw-players')).data;
+        players.map(espnPlayer => {
+            const player = PlayerService.convertPlayer(espnPlayer);
+            PlayersRepo.addPlayer(player, 0);
+        });
+    } catch(e) {
+        console.log(e);
+    }
+
+    res.status(200).send('VERY NICE!');
+
+});
+
 app.get('/trigger-cron', (req: any, res: any) => {
     WeekService.onCron();
     res.send('imitate cron');
@@ -48,7 +67,7 @@ app.use((error: Error, req: any, res: any, next: any) => {
         console.log('bad request eror here at catch');
         res.status(error.status);
         res.json({ error: error.message });
-    } else if (error instanceof NotFoundError) { 
+    } else if (error instanceof NotFoundError) {
         res.status(error.status);
         res.json({ error: error.message });
     } else if (error instanceof CustomError) {

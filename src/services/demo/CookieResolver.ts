@@ -6,8 +6,8 @@ export const getUserCookies = (req: Request): string => {
 
   if (req && req.cookies) {
 
-    const id = req.cookies['user_id'];
-    
+    const id = req.cookies.user_id;
+
     if (id) {
       return id;
     }

@@ -1,6 +1,5 @@
 import dotenv from 'dotenv';
 import fs from 'fs';
-import {} from '../../../'
 
 
 dotenv.config();
@@ -28,3 +27,5 @@ export const PRIV_KEY = fs.readFileSync('./id_rsa_priv.pem', 'utf8');
 
 export const INTERAL_SERVER_IDENTIFIER = 'internal_server_error';
 export const NOT_FOUND_IDENTIFIER = 'not_found_error';
+
+export const DB_URL = process.env.PROD_DB_URL;

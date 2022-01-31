@@ -51,9 +51,9 @@ const fakeUsers: IDemoUser[] = [
 
 
 export default class BotService {
-  
+
   constructor() {}
-  
+
   static async bidOnExisting(league_id: string) {
     console.log('bidding on existing player');
     const biddedPlayers = await DemoAuctionService.getPlayerBids(league_id);
@@ -62,19 +62,19 @@ export default class BotService {
 
     const randomPlayer = biddedPlayers[Math.floor(Math.random()*biddedPlayers.length)];
     const previousBidAmount = randomPlayer.bids[0].amount;
-    
+
     const newBidAmount = previousBidAmount + BotService.getRandomBidAmount();
-    
+
     const randomUser = BotService.getRandomUser();
 
     if (!randomUser) return;
 
-    try { 
+    try {
       await DemoAuctionService.saveBid({
         player_id: randomPlayer._id,
         user_id: randomUser._id,
         amount: newBidAmount,
-        league_id: league_id
+        league_id
       });
     } catch(e) {
       console.log('could not save bid', e);
@@ -86,12 +86,12 @@ export default class BotService {
     const randomPlayer = unbiddedPlayers[Math.floor(Math.random() * Math.min(30, unbiddedPlayers.length))];
 
     if (!randomPlayer) return;
-    try { 
+    try {
       await DemoAuctionService.saveBid({
         player_id: randomPlayer._id,
         user_id: BotService.getRandomUser()._id,
         amount: BotService.getRandomBidAmount(),
-        league_id: league_id
+        league_id
       });
     } catch(e) {
       console.log('could not save bid', e);

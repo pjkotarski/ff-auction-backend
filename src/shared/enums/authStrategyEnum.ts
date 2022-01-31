@@ -1,4 +1,4 @@
-export enum authStrategyEnum { 
+export enum authStrategyEnum {
     GOOGLE = 'GOOGLE',
     FACEBOOK = 'FACEBOOK'
 }

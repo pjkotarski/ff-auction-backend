@@ -33,9 +33,9 @@ export default class WeekService {
         const currentWeek = this.resolveWeek();
         this.setWeek(currentWeek);
         BidsRepo.clearBids();
-        
+
         const leagues = await getLeagues();
-    
+
         leagues.forEach((league: ILeague) => {
             WeekService.updatePlayerDbs(league, currentWeek);
         });

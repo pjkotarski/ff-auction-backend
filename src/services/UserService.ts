@@ -6,9 +6,9 @@ import { InternalServerError } from '../shared/types/errors/InternalServer.error
 
 export default class UserServie {
 
-    static async createUser(ticket: any): Promise<IUser> { 
+    static async createUser(ticket: any): Promise<IUser> {
         const createdUser: IUser = this.mapToUser(ticket);
-        
+
         return await UserRepo.saveUser(createdUser);
     }
 

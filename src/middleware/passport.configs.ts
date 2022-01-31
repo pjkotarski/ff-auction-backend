@@ -3,12 +3,12 @@ import { PUB_KEY } from '../shared/configs/env.configs';
 
 import UserRepo from '../database/repo/User.repo';
 
-var cookieExtractor = function(req:any) {
+let cookieExtractor = function(req:any) {
 
-    var token = null;
+    let token = null;
     if (req && req.cookies)
     {
-        token = req.cookies['access_token'];
+        token = req.cookies.access_token;
     }
     return token;
 };
@@ -20,10 +20,10 @@ const options = {
 }
 
 const strategy = new Strategy(options, async(payload: any, done: any) => {
-    
-    try {    
+
+    try {
         const user = await UserRepo.findUserById(payload.sub);
-        
+
         if (!user) {
             throw Error;
         }

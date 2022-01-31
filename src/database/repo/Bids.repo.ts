@@ -16,15 +16,15 @@ export default class BidsRepo {
     }
 
     public static async getBids(league_id: number): Promise<IBid[]> {
-        return await BidModel.find({ league_id: league_id }).sort({ createdAt: -1 }).lean();
+        return await BidModel.find({ league_id }).sort({ createdAt: -1 }).lean();
     }
 
     public static async getLeadingBidForPlayer(playerId: number, league_id: number) {
         return await BidModel.find({ player_id: playerId }).sort({ amount: -1 }).limit(1).lean();
-    }   
+    }
 
     public static async getBidsForPlayer(playerId: number, league_id: number): Promise<IBid[]> {
-        
+
         const bids = await BidModel.find({ player_id: playerId }).sort({ createdAt: -1 }).lean();
         return bids;
     }
@@ -33,7 +33,7 @@ export default class BidsRepo {
 
         return await BidModel.find({ createdAt: {
             $gt: new Date(time),
-            $lt: new Date() 
+            $lt: new Date()
         }}).sort({ createdAt: -1}).lean();
     }
 

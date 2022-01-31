@@ -14,7 +14,7 @@ router.post('/get-user', asyncHandler(async(req: any, res: any, next: NextFuncti
 
   const user_id = getUserCookies(req);
 
-  if (!user_id) { 
+  if (!user_id) {
     throw new BadRequestError('user id is required');
   }
   const user = await DemoAuctionService.getUser(user_id);
@@ -35,7 +35,7 @@ router.post('/create-user', asyncHandler(async(req: any, res: any, next: NextFun
 
   res.cookie('user_id', user._id);
   res.status(200).json(user);
-})); 
+}));
 
 router.get('/start-demo', asyncHandler(async(req: any, res: any, next: NextFunction) => {
 
@@ -57,7 +57,7 @@ router.get('/start-demo', asyncHandler(async(req: any, res: any, next: NextFunct
 router.get('/running-for-user', asyncHandler(async(req: any, res: any, next: NextFunction) => {
   const user_id = getUserCookies(req);
   const isRunning = await DemoAuctionService.isAuctionRunningForUser(user_id);
-  res.json(200).json({ isRunning: isRunning });
+  res.json(200).json({ isRunning });
 }));
 
 router.post('/post-bid', asyncHandler(async(req: any, res: any, next: NextFunction) => {
@@ -65,7 +65,7 @@ router.post('/post-bid', asyncHandler(async(req: any, res: any, next: NextFuncti
   const user_id = getUserCookies(req);
 
   const postedBid: IDemoBid = req.body.bid;
-  
+
   if (!postedBid) {
     throw new BadRequestError('error reading posted bid');
   }
@@ -74,7 +74,7 @@ router.post('/post-bid', asyncHandler(async(req: any, res: any, next: NextFuncti
     postedBid.league_id = user_id;
   }
 
-  const player = await DemoAuctionService.saveBid(postedBid); 
+  const player = await DemoAuctionService.saveBid(postedBid);
 
   if (!player) {
     throw new InternalServerError('something went wrong');
@@ -119,13 +119,13 @@ router.post('/players/:page', asyncHandler(async(req: any, res: any, next: NextF
   const playersPage: IPlayer[] = await DemoAuctionService.getPlayersByPage(page, user_id, query);
 
   if (!playersPage) throw new InternalServerError('something went wrong');
-  
+
   res.status(200).json(playersPage);
 }));
 
 
 router.post('/bidded-players', asyncHandler(async(req: any, res: any, next: NextFunction) => {
-  
+
   const user_id = getUserCookies(req);
 
   let query = req.body.query;
@@ -161,7 +161,7 @@ router.get('/clear-bids', asyncHandler(async(req: any, res: any, next: NextFunct
   const result = await DemoAuctionService.clearBids(user_id);
 
   res.status(200).send('it worked');
- 
+
 }));
 
 router.post('/search', asyncHandler(async(req: any, res: any, next: NextFunction) => {

@@ -51,12 +51,12 @@ export default class BidService {
 
         const playerIds: number[] = Array.from(playersSet);
         const players = await PlayersRepo.getPlayerListFromIds(playerIds, league_id);
-        
+
 
         for (const bid of bids) {
-            let player = players.filter(player => player._id === bid.player_id)[0];
-            
-            if (player.bids) { 
+            const player = players.filter(player => player._id === bid.player_id)[0];
+
+            if (player.bids) {
                 player.bids.push(bid);
             } else {
                 player.bids = [bid];

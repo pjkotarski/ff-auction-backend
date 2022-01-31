@@ -21,9 +21,9 @@ export const signInUser = async(token: string, authStrategy: string) => {
 
     const jwt = issueJWT(user);
 
-    return { 
+    return {
         createdUser: user,
-        jwt: jwt
+        jwt
     }
 }
 
@@ -43,7 +43,7 @@ export const issueJWT = (user: IUser) => {
 
 
 export const resolveAuthStrategy = (authStrategy: string): IAuthStrategy => {
-    
+
     if (authStrategy === authStrategyEnum.GOOGLE) {
         return new GoogleAuthService();
     } else if (authStrategy === authStrategyEnum.FACEBOOK) {

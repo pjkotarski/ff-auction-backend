@@ -21,7 +21,7 @@ export default class DemoAuctionService {
   static async getUser(user_id: string): Promise<IDemoUser> {
     try {
       return await DemoUsersRepo.getUser(user_id);
-    } catch(e) { 
+    } catch(e) {
       console.log(e);
       throw new InternalServerError('could not get user');
     }
@@ -74,7 +74,7 @@ export default class DemoAuctionService {
   }
 
   static async saveBid(newBid: IDemoBid): Promise<IPlayer> {
-    
+
     if (!await this.isBidValid(newBid)) {
       throw new BadRequestError('could not save bid, invalid amount');
     }
@@ -82,7 +82,7 @@ export default class DemoAuctionService {
     const bid = await DemoBidsRepo.addBid(newBid);
 
     const [player, playerBids] = await Promise.all([
-      PlayersRepo.getPlayer(bid.player_id, 0), 
+      PlayersRepo.getPlayer(bid.player_id, 0),
       DemoBidsRepo.getBidsForPlayer(newBid.player_id, newBid.league_id)
     ]);
 
@@ -96,7 +96,7 @@ export default class DemoAuctionService {
     if (!leadingBid) {
       return true;
     }
-    
+
     return bid.amount > leadingBid.amount;
   }
 
@@ -106,7 +106,7 @@ export default class DemoAuctionService {
 
   private static async mapBidsToPlayers(bids: IDemoBid[], query=''): Promise<IPlayer[]> {
     const playerIdSet = new Set<number>();
-    
+
     bids.forEach(bid => {
       playerIdSet.add(bid.player_id);
     });
@@ -114,8 +114,8 @@ export default class DemoAuctionService {
     const playerIds: number[] = Array.from(playerIdSet);
     const players = await PlayersRepo.getPlayerListFromIds(playerIds, 0, query);
 
-    for (var i = bids.length - 1; i >= 0; i--) {
-      let player = players.find(player => player._id === bids[i].player_id);
+    for (let i = bids.length - 1; i >= 0; i--) {
+      const player = players.find(player => player._id === bids[i].player_id);
 
       if (!player) continue;
 
@@ -136,12 +136,12 @@ export default class DemoAuctionService {
     });
   }
 
-  public static startMockProcess(user_id: string, expTime: Date) { 
+  public static startMockProcess(user_id: string, expTime: Date) {
     let runningFor = 0;
 
     DemoUsersRepo.setRunningForUser(user_id, true);
     DemoAuctionService.setExpirationTime(user_id, expTime);
-    
+
 
     const timer_process = setInterval(() => {
 
@@ -167,7 +167,7 @@ export default class DemoAuctionService {
       return DemoUsersRepo.setExpirationTime(user_id, expiration_time);
     } catch(_) {
       throw new InternalServerError('could not set expiration time');
-    }   
+    }
   }
 
   public static async getExpirationTime(user_id: string): Promise<Date> {
@@ -187,7 +187,7 @@ export default class DemoAuctionService {
       this.getPlayerBids(user_id)
     ]);
 
-    let matchingBidded: IPlayer[] = [];
+    const matchingBidded: IPlayer[] = [];
 
     const matchingUnbidded = matchingPlayers.filter(matchingPlayer => {
 

@@ -4,11 +4,11 @@ import { UserModel } from '../model/User.model';
 
 
 export default class UserRepo {
-    
+
     public static async saveUser(newUser: IUser): Promise<IUser> {
-        
+
         const user = new UserModel(newUser);
-        try { 
+        try {
             return await user.save();
         } catch (error) {
             console.log('There was an error saving user', error);
@@ -21,7 +21,7 @@ export default class UserRepo {
     }
 
     public static async findUserByEmail(email: string): Promise<IUser> {
-        return await UserModel.findOne({ email: email }).lean();
+        return await UserModel.findOne({ email }).lean();
     }
 
     public static updateUserLeague(user: IUser, leagueId: number): Promise<IUser> {

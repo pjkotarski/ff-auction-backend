@@ -5,7 +5,7 @@ export default class LeagueRepo {
 
     public static async saveLeague(newLeague: ILeague) {
         const league = new LeagueModel(newLeague);
-        try { 
+        try {
             return await league.save();
         } catch (error) {
             throw new Error;

@@ -3,12 +3,12 @@ import { InternalServerError } from '../../../shared/types/errors/InternalServer
 import { DemoUserModel } from '../../model/demo/DemoUsers.model';
 
 export default class DemoUsersRepo {
-  
+
   static async saveUser(newUser: IDemoUser): Promise<IDemoUser> {
 
     const userModel = new DemoUserModel(newUser);
 
-    try { 
+    try {
       return await userModel.save();
     } catch(_) {
       throw new InternalServerError('could not save user');
@@ -34,11 +34,11 @@ export default class DemoUsersRepo {
   }
 
   static async setRunningForUser(user_id: string, isRunning: boolean) {
-    return await DemoUserModel.updateOne({ _id: user_id }, { isRunning: isRunning }).lean();
+    return await DemoUserModel.updateOne({ _id: user_id }, { isRunning }).lean();
   }
 
   static async setExpirationTime(user_id: string, expiration_time: Date): Promise<IDemoUser> {
-    return await DemoUserModel.updateOne({ _id: user_id }, { expiration_time: expiration_time }).lean();
+    return await DemoUserModel.updateOne({ _id: user_id }, { expiration_time }).lean();
   }
 
 }

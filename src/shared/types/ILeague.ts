@@ -1,4 +1,4 @@
-export interface ILeague { 
+export interface ILeague {
     _id?: number;
     name?: string;
     commissioner?: string;

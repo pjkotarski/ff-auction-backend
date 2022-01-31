@@ -21,7 +21,7 @@ router.post('/post-bid', passport.authenticate('jwt', { session: false }), async
 
     const league_id = resolveLeagueId(req);
     const requestBid: IBid = req.body.bid;
-    
+
     await BidService.postBid(requestBid, league_id);
 
     const player = await PlayerService.getPlayerWithBids(requestBid.player_id, league_id);

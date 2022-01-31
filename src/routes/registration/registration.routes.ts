@@ -19,7 +19,7 @@ router.post('/register-user-league', passport.authenticate('jwt', { session: fal
     let userUpdates: IUser;
     let hasExistingLeague: boolean;
 
-    try { 
+    try {
         userUpdates = req.body.newUser;
         league = req.body.league;
         hasExistingLeague = req.body.hasExistingLeague;
@@ -39,7 +39,7 @@ router.post('/register-user-league', passport.authenticate('jwt', { session: fal
             user: newUser
         });
     } else {
-        const { newLeague, newUser } = await RegistrationService.registerUserAndLeague(user._id, userUpdates, league); 
+        const { newLeague, newUser } = await RegistrationService.registerUserAndLeague(user._id, userUpdates, league);
         res.status(200).json({
             league: newLeague,
             user: newUser
@@ -82,7 +82,7 @@ router.post('/register-league', passport.authenticate('jwt', { session: false })
     try {
         league = req.body.league;
 
-        if (!league) { 
+        if (!league) {
             throw Error;
         }
 
@@ -94,23 +94,23 @@ router.post('/register-league', passport.authenticate('jwt', { session: false })
     const createdLeague = await saveLeague(league);
 
     if (createdLeague) {
-         
+
         const newUser = await UserServie.assignLeagueToUser(user, createdLeague);
-        
+
         if (newUser) {
             res.status(200).json(createdLeague);
             return;
         }
     }
-    
+
     throw new InternalServerError('could not create league, unknown error occured');
-    
+
 });
 
 
-//How should this whole registration process work? 
-/* 
-    1) you will register your user. If that works, then you will register the league with the user id configured as comissioner. We could just make one endpoint for both. 
+// How should this whole registration process work?
+/*
+    1) you will register your user. If that works, then you will register the league with the user id configured as comissioner. We could just make one endpoint for both.
 
 
 
