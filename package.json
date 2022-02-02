@@ -8,6 +8,7 @@
     "build": "tsc",
     "prestart": "npm run build",
     "start": "node .",
+    "deploy:prod": "npm run prestart && npm run start",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon --watch './**/*.ts' --exec 'ts-node' ./src/app.ts"
   },
