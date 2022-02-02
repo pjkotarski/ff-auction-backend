@@ -3,7 +3,7 @@ import { PUB_KEY } from '../shared/configs/env.configs';
 
 import UserRepo from '../database/repo/User.repo';
 
-let cookieExtractor = function(req:any) {
+const cookieExtractor = (req:any) => {
 
     let token = null;
     if (req && req.cookies)

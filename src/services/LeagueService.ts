@@ -16,7 +16,7 @@ export const saveLeague = async(league: ILeague) => {
     try {
         return await LeagueRepo.saveLeague(league);
     } catch(e) {
-        throw new InternalServerError;
+        throw new InternalServerError();
     }
 }
 
@@ -27,7 +27,7 @@ export const getLeague = async(leagueId: number) => {
         league = await LeagueRepo.getLeagueById(leagueId);
 
         if (!league) {
-            throw new Error;
+            throw new Error();
         }
 
         return league;

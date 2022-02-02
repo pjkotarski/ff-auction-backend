@@ -24,7 +24,7 @@ router.post('/register-user-league', passport.authenticate('jwt', { session: fal
         league = req.body.league;
         hasExistingLeague = req.body.hasExistingLeague;
         if (!user || !league || !hasExistingLeague) {
-            throw new Error;
+            throw new Error();
         }
 
     } catch(e) {

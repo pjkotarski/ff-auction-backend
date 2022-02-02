@@ -54,7 +54,7 @@ export default class BidService {
 
 
         for (const bid of bids) {
-            const player = players.filter(player => player._id === bid.player_id)[0];
+            const player = players.filter(eachPlayer => eachPlayer._id === bid.player_id)[0];
 
             if (player.bids) {
                 player.bids.push(bid);

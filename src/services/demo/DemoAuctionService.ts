@@ -115,7 +115,7 @@ export default class DemoAuctionService {
     const players = await PlayersRepo.getPlayerListFromIds(playerIds, 0, query);
 
     for (let i = bids.length - 1; i >= 0; i--) {
-      const player = players.find(player => player._id === bids[i].player_id);
+      const player = players.find(eachPlayer => eachPlayer._id === bids[i].player_id);
 
       if (!player) continue;
 

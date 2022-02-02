@@ -8,7 +8,7 @@ export default class LeagueRepo {
         try {
             return await league.save();
         } catch (error) {
-            throw new Error;
+            throw new Error();
         }
     }
 
