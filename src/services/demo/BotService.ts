@@ -1,53 +1,6 @@
 import { IDemoUser } from '../../shared/types/demo/IDemoUser';
 import DemoAuctionService from './DemoAuctionService'
-
-
-const fakeUsers: IDemoUser[] = [
-  {
-    _id:  '61eb4964bfce834d5228e36b',
-    name: 'Omar'
-  },
-  {
-    _id: '61eb4964bfce834d5228e36c',
-    name: 'Stringer'
-  },
-  {
-    _id: '61eb4964bfce834d5228e36d',
-    name: 'Jimmy'
-  },
-  {
-    _id: '61eb4964bfce834d5228e36e',
-    name: 'Wallace'
-  },
-  {
-    _id: '61eb4964bfce834d5228e36e',
-    name: 'Avon'
-  },
-  {
-    _id: '61eb4964bfce834d5228e370',
-    name: 'Greggs'
-  },
-  {
-    _id: '61eb4964bfce834d5228e371',
-    name: 'Cedric'
-  },
-  {
-    _id: '61eb4964bfce834d5228e372',
-    name: 'Lester'
-  },
-  {
-    _id: '61eb4964bfce834d5228e373',
-    name: 'Charlie'
-  },
-  {
-    _id: '61eb4964bfce834d5228e373',
-    name: 'Dennis'
-  },
-  {
-    _id: '61eb4964bfce834d5228e375',
-    name: 'Mac'
-  }
-];
+const fakeUsers: IDemoUser[] = require('../../../demo_players.json');
 
 
 export default class BotService {

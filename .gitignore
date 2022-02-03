@@ -119,3 +119,6 @@ dist
 #keys
 id_rsa_priv.pem
 id_rsa_pub.pem
+
+#misc
+demo_players.json
