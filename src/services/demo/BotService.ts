@@ -8,7 +8,9 @@ export default class BotService {
   constructor() {}
 
   static async bidOnExisting(league_id: string) {
-    console.log('bidding on existing player');
+
+    if (!this.shouldBidOnExisting()) return;
+
     const biddedPlayers = await DemoAuctionService.getPlayerBids(league_id);
 
     if (!biddedPlayers || biddedPlayers.length === 0) return;
@@ -35,6 +37,9 @@ export default class BotService {
   }
 
   static async bidOnNew(league_id: string) {
+
+    if (!this.shouldBidOnNew()) return;
+
     const unbiddedPlayers = await DemoAuctionService.getUnbiddedPlayers(league_id);
     const randomPlayer = unbiddedPlayers[Math.floor(Math.random() * Math.min(30, unbiddedPlayers.length))];
 
@@ -49,6 +54,16 @@ export default class BotService {
     } catch(e) {
       console.log('could not save bid', e);
     }
+  }
+
+  static shouldBidOnExisting = () => {
+    const rando = Math.floor(Math.random() * 4);
+    return (rando >= 1);
+  }
+
+  static shouldBidOnNew = () => {
+    const rando = Math.floor(Math.random() * 2); //etiher 0 or 1
+    return (rando === 1);
   }
 
   private static getRandomUser = () => {

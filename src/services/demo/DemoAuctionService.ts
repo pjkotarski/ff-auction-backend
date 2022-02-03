@@ -11,8 +11,8 @@ import IPlayer from '../../shared/types/IPlayer';
 import BotService from './BotService';
 
 
-const runsFor = 20;
-const interval = 7 * 1000;
+const runsFor = 120;
+const interval = 5 * 1000;
 
 export default class DemoAuctionService {
 
@@ -150,7 +150,7 @@ export default class DemoAuctionService {
 
       runningFor += interval;
 
-      if (runningFor >= 1000 * runsFor - 10) {
+      if (runningFor >= 1000 * runsFor - 17) {
         DemoUsersRepo.setRunningForUser(user_id, false);
         DemoAuctionService.setExpirationTime(user_id, null);
         clearInterval(timer_process);
