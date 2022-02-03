@@ -7,7 +7,7 @@
     "prebuild": "tslint -c tslint.json -p tsconfig.json --fix",
     "build": "tsc",
     "build:prod": "npm run build",
-    "deploy:prod": "pm2 ./dist/app.js",
+    "deploy:prod": "pm2 start ./dist/app.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon --watch './**/*.ts' --exec 'ts-node' ./src/app.ts"
   },
