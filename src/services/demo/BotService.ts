@@ -20,6 +20,10 @@ export default class BotService {
 
     const newBidAmount = previousBidAmount + BotService.getRandomBidAmount();
 
+    if (newBidAmount > 300) {
+      return;
+    }
+
     const randomUser = BotService.getRandomUser();
 
     if (!randomUser) return;
@@ -29,7 +33,8 @@ export default class BotService {
         player_id: randomPlayer._id,
         user_id: randomUser._id,
         amount: newBidAmount,
-        league_id
+        bidderName: randomUser.name,
+        league_id: league_id
       });
     } catch(e) {
       console.log('could not save bid', e);
@@ -45,11 +50,15 @@ export default class BotService {
 
     if (!randomPlayer) return;
     try {
+
+      const randomBot = BotService.getRandomUser();
+
       await DemoAuctionService.saveBid({
         player_id: randomPlayer._id,
-        user_id: BotService.getRandomUser()._id,
+        user_id: randomBot._id,
         amount: BotService.getRandomBidAmount(),
-        league_id
+        bidderName: randomBot.name,
+        league_id: league_id
       });
     } catch(e) {
       console.log('could not save bid', e);

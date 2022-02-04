@@ -114,19 +114,23 @@ export default class DemoAuctionService {
     const playerIds: number[] = Array.from(playerIdSet);
     const players = await PlayersRepo.getPlayerListFromIds(playerIds, 0, query);
 
+    const orderedPlayers = [];
+    const orderMap = new Map<number, number>();
+
     for (let i = bids.length - 1; i >= 0; i--) {
       const player = players.find(eachPlayer => eachPlayer._id === bids[i].player_id);
-
       if (!player) continue;
 
-      if (player.bids) {
-        player.bids.push(bids[i]);
+      if (orderMap.has(player._id)) {
+        orderedPlayers[orderMap.get(player._id)].bids.push(bids[i]);
       } else {
         player.bids = [bids[i]];
+        orderMap.set(player._id, orderedPlayers.length);
+        orderedPlayers.push(player);
       }
     }
 
-    return players;
+    return orderedPlayers;
   }
 
   public static filterOutBiddedPlayers(unbidded: IPlayer[], bidded: IPlayer[]): IPlayer[] {
